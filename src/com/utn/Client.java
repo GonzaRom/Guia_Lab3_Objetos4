@@ -6,7 +6,7 @@ public class Client {
     private String name;
     private int phoneNumber;
     private String address;
-    private ArrayList<Movie> rented = new ArrayList<Movie>();
+    private ArrayList<Ticket> rentalTickets = new ArrayList<Ticket>();
 
 
     public Client() {
@@ -43,14 +43,21 @@ public class Client {
         this.address = address;
     }
 
-    public void getRented() {
-        for (Movie movie : rented) {
-            System.out.print(movie.toString());
+    public String printRented() {
+        StringBuilder stringRented = new StringBuilder();
+        for (Ticket rentalTicket : rentalTickets) {
+            stringRented.append(rentalTicket.toString());
+            stringRented.append("\n");
         }
+        return stringRented.toString();
     }
 
-    public void setRented(Movie rented) {
-        this.rented.add(rented);
+    public ArrayList<Ticket> getRentalTickets() {
+        return rentalTickets;
+    }
+
+    public void setRentalTickets(Ticket ticket) {
+        this.rentalTickets.add(ticket);
     }
 
     @Override

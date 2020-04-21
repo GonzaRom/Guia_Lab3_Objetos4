@@ -2,35 +2,21 @@ package com.utn;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class Store {
 
-    protected ArrayList<Movie> movies = new ArrayList<Movie>();
-    protected ArrayList<Client> clients = new ArrayList<Client>();
+    protected ArrayList<Movie> movies = new ArrayList<>();
+    protected ArrayList<Client> clients = new ArrayList<>();
 
     public Store() {
-    }
-
-    public Store(ArrayList<Movie> movies, ArrayList<Client> clients) {
-        this.movies = movies;
-        this.clients = clients;
     }
 
     public void setMovies(Movie movie) {
         this.movies.add(movie);
     }
 
-    public String getMovies() {
-        return movies.toString();
-    }
-
     public void setClients(Client client) {
         this.clients.add(client);
-    }
-
-    public String getClients() {
-        return clients.toString();
     }
 
     public boolean haveCopiesLeft(Movie movie) {
@@ -42,7 +28,6 @@ public class Store {
         Iterator<Movie> i = this.movies.iterator();     //Init a Iterator of Movie from the list of Movies
         boolean flag = false;                           //Flag = True Movie found
                                                         //Flag = False Movie not found
-
         while (i.hasNext() && !flag) {                  //Iterator to traverse the list while there is elements in the
                                                         // list and the movie wasn't found
             movie = i.next();                           //Because i couldn't use the method getTitle stray from i.next
@@ -69,59 +54,96 @@ public class Store {
         }
         if (flag) return client;
         else return null;
-
     }
 
-    public Client newClient() {
-        Client client = new Client();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Nombre :");
-        client.setName(scanner.nextLine());
-        System.out.println("Address :");
-        client.setAddress(scanner.nextLine());
-        System.out.println("Phone Number :");
-        client.setPhoneNumber(scanner.nextInt());
 
-        return client;
-    }
-
-    public String rentMovie() {
-        Scanner scanner = new Scanner(System.in);               //init Scanner
-        String movieTitle = scanner.next();                     //scan name of the movie
-
+    public String rentMovie(String movieTitle, String nameClient) {
         Movie movie = searchMovie(movieTitle);                  //Search if the movie is in the store
         if (movie != null) {                                    //If that movie exist
 
             if (haveCopiesLeft(movie)) {                        //search if there is copies left
-
-                String nameClient = scanner.next();             //Ask for the name of the client
                 Client client = searchClient(nameClient);       //Search if the Client is already register
 
                 if (client != null) {                           //If the client is already register
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
+                    client.setRentalTickets(ticket);
                     return ticket.toString();                   // Return current ticket
-                } else {                                        //The client doesn't exist
-                    clients.add(client = newClient());          //create a new Client and add it in the list of Clients
 
+                } else {                                        //The client doesn't exist
+                    client = new Client(nameClient, "Wash", 4751111); //create a new Client
+                    clients.add(client);                         //and add it in the list of Clients
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
+                    client.setRentalTickets(ticket);
                     return ticket.toString();                   // Return current ticket
                 }
             } else {                                            //No more copies left? Say srry for that
                 return "Sorry, we ran out of stock for this movie";
             }
         } else {                                                //The movie doesn't exist? Apologies for that
-            return "Movie don't found";
+            return "Movie not found";
         }
     }
 
-    public String returnMovie (String movieTitle) {
-        Movie movie = searchMovie(movieTitle);                  //Search if the movie is in the store
-        if (movie != null) {                                    //If that movie exist
-            movie.returnOneMovie();
-            ////////--currentRentals
-        }
-        return "movie Returned";
+    public String returnMovie(String movieTitle, String clientName) {
+        Movie movie = searchMovie(movieTitle);                                     //Search if the movie is in the store
+        Client client = searchClient(clientName);
+        if (movie != null && client != null) {                                    //If that movie exist adn client exist
+            Iterator<Ticket> i = client.getRentalTickets().iterator();
+            boolean flag = false;
 
+            while (i.hasNext()) {
+                Ticket ticketInList = i.next();
+                Movie movieRented = ticketInList.getMovie();
+                flag = movieRented.equals(movie);
+
+                if (flag) {
+                    movieRented.returnOneMovie();
+                    ticketInList.setReturned(true);
+                    return "Movie Returned";
+                }
+            }
+        }
+        return "Movie or Client is incorrect";
     }
+
+    public String movieReturnsForToday(String date) {
+        StringBuilder nameMovieReturns = new StringBuilder();
+        for (Client client : clients) {
+            for (Ticket currentTicket : client.getRentalTickets()) {
+                if (!currentTicket.isReturned() && currentTicket.getReturnDate().equalsIgnoreCase(date)) {
+                    nameMovieReturns.append("\nClient: ");
+                    nameMovieReturns.append(currentTicket.getClient().getName());
+                    nameMovieReturns.append("\tMovie: ");
+                    nameMovieReturns.append(currentTicket.getMovie().getTitle());
+                }
+            }
+        }
+        return "Movies Returns for today " + date + " :" + nameMovieReturns.toString();
+    }
+
+    public String movieReturnsPending() {
+        StringBuilder nameMovieReturns = new StringBuilder();
+        for (Client client : clients) {
+            for (Ticket currentTicket : client.getRentalTickets()) {
+                if (!currentTicket.isReturned()) {
+                    nameMovieReturns.append("\nClient: ");
+                    nameMovieReturns.append(currentTicket.getClient().getName());
+                    nameMovieReturns.append("\tMovie: ");
+                    nameMovieReturns.append(currentTicket.getMovie().getTitle());
+                }
+            }
+        }
+        return "Movies pending for return :" + nameMovieReturns.toString();
+    }
+
+    /**public String topTenMovies (){
+     StringBuilder topTen = new StringBuilder();
+     Movie[] topTenArray = new Movie[movies.size()];
+     topTenArray=movies.toArray(topTenArray);                //TODO
+     for(int i = 0;i<topTenArray.length;i++){
+
+     }
+     }**/
+
 }
 

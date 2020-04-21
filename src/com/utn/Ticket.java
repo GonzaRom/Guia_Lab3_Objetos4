@@ -9,6 +9,7 @@ public class Ticket extends Store {
     private String returnDate;
     private Client client;
     private Movie movie;
+    private boolean returned;
 
 
     public Ticket() {
@@ -19,13 +20,9 @@ public class Ticket extends Store {
         this.movie = movie;
         setCurrentDate();
         setReturnDate();
-        movie.setStock(extractOneMovie(movie));
-        client.setRented(movie);
-    }
-
-    public int extractOneMovie(Movie movie) {
-        int newStock = movie.getStock();
-        return --newStock;
+        movie.takeOneMovie();
+        movie.increaseCountPopularity();
+        returned=false;
     }
 
     public void setCurrentDate() {
@@ -50,4 +47,28 @@ public class Ticket extends Store {
                 ", Movie=" + movie.getTitle() +
                 '}';
     }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void setReturned(boolean returned) {
+        this.returned = returned;
+    }
+
+    public String printMovies() {
+        return this.movie.toString();
+    }
+
+    public Movie getMovie (){
+        return this.movie;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+    public String getReturnDate(){
+        return returnDate;
+    }
+
 }

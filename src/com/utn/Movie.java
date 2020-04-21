@@ -1,6 +1,10 @@
 package com.utn;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Movie {
+    private UUID id;
     private String genre;
     private String title;
     private int releaseYear;
@@ -9,11 +13,13 @@ public class Movie {
     private String country;
     private String description;
     private int stock;
+    private int countPopularity;
 
     public Movie() {
     }
 
     public Movie(String genre, String title, String rated, String country, int releaseYear, int duration, String description, int stock) {
+        this.id=UUID.randomUUID();
         this.country = country;
         this.description = description;
         this.duration = duration;
@@ -22,6 +28,7 @@ public class Movie {
         this.title = title;
         this.releaseYear = releaseYear;
         this.stock = stock;
+        this.countPopularity=0;
     }
 
     public String getGenre() {
@@ -88,12 +95,12 @@ public class Movie {
         this.stock = stock;
     }
 
-    public void takeOneMovie(){
-        this.stock--;
+    public void takeOneMovie() {
+        stock--;
     }
 
-    public void returnOneMovie(){
-        this.stock++;
+    public void returnOneMovie() {
+        stock++;
     }
 
     @Override
@@ -110,4 +117,24 @@ public class Movie {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id.equals(movie.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public int getCountPopularity() {
+        return countPopularity;
+    }
+
+    public void increaseCountPopularity() {
+        this.countPopularity++;
+    }
 }
