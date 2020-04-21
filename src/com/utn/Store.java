@@ -23,6 +23,7 @@ public class Store {
         return movie.getStock() != 0;
     }
 
+    ////SEARCH A MOVIE IN THE LIST OF MOVIES
     public Movie searchMovie(String nameMovie) {        //Search if the movie is in the store
         Movie movie = new Movie();                      //Init a empty movie
         Iterator<Movie> i = this.movies.iterator();     //Init a Iterator of Movie from the list of Movies
@@ -40,7 +41,9 @@ public class Store {
         if (flag) return movie;                         //Flag = True Movie found
         else return null;                               //Flag = False Movie not found
     }
+    ////
 
+    ////SEARCH A CLIENT IN THE LIST OF CLIENTS
     public Client searchClient(String nameClient) {
         Client client = new Client();
         Iterator<Client> i = this.clients.iterator();
@@ -55,8 +58,9 @@ public class Store {
         if (flag) return client;
         else return null;
     }
+    /////
 
-
+    ////RENT A MOVIE
     public String rentMovie(String movieTitle, String nameClient) {
         Movie movie = searchMovie(movieTitle);                  //Search if the movie is in the store
         if (movie != null) {                                    //If that movie exist
@@ -83,7 +87,9 @@ public class Store {
             return "Movie not found";
         }
     }
+    ////
 
+    ////RETURN MOVIE
     public String returnMovie(String movieTitle, String clientName) {
         Movie movie = searchMovie(movieTitle);                                     //Search if the movie is in the store
         Client client = searchClient(clientName);
@@ -105,7 +111,9 @@ public class Store {
         }
         return "Movie or Client is incorrect";
     }
+    ////
 
+    ////MOVIE RETURNS FOR TODAY
     public String movieReturnsForToday(String date) {
         StringBuilder nameMovieReturns = new StringBuilder();
         for (Client client : clients) {
@@ -120,7 +128,9 @@ public class Store {
         }
         return "Movies Returns for today " + date + " :" + nameMovieReturns.toString();
     }
+    ////
 
+    ////ALQUILERES PENDIENTES
     public String movieReturnsPending() {
         StringBuilder nameMovieReturns = new StringBuilder();
         for (Client client : clients) {
@@ -135,15 +145,43 @@ public class Store {
         }
         return "Movies pending for return :" + nameMovieReturns.toString();
     }
+    ////
 
-    /**public String topTenMovies (){
+    ////SORT BY POPULARITY
+    public void incertionSortByPopularity (){
+        Movie[] topTenArray = new Movie[movies.size()];
+        topTenArray=movies.toArray(topTenArray);
+
+        for(int i = 1;i<topTenArray.length;++i){
+            Movie aux = topTenArray[i];
+            int j = i-1;
+            while (j >=0 && topTenArray[j].getCountPopularity() < aux.getCountPopularity()){
+                topTenArray[j+1] = topTenArray [j];
+                j=j-1;
+            }
+            topTenArray[j+1]=aux;
+        }
+
+        movies.clear();
+        for (Movie arrayMovies : topTenArray) {
+            movies.add(arrayMovies);
+        }
+    }
+    ////
+
+    ////TOP TEN MOVIES
+    public String topTenMovies (){
      StringBuilder topTen = new StringBuilder();
-     Movie[] topTenArray = new Movie[movies.size()];
-     topTenArray=movies.toArray(topTenArray);                //TODO
-     for(int i = 0;i<topTenArray.length;i++){
+     incertionSortByPopularity();
+     Movie[] topTenArray= new Movie[movies.size()];
+     topTenArray=movies.toArray(topTenArray);
 
+     for (int x = 0; x<10 && x < topTenArray.length;x++){
+         topTen.append(topTenArray[x].getTitle());
+         topTen.append("\n");
      }
-     }**/
-
+     return "Top Ten Most Rented Movies :\n"+ topTen;
+     }
+    ////
 }
 

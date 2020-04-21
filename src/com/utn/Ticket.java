@@ -25,20 +25,23 @@ public class Ticket extends Store {
         returned=false;
     }
 
+    ////SET CURRENT DATE
     public void setCurrentDate() {
         LocalDate localDate = LocalDate.now(); //Catch local time
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd LLLL yyyy"); // Setting the format like: DAY MONTH YEAR
         this.currentDate = localDate.format(formato); //Assign the new string with the correct format and date
     }
+    ////
 
+    ////SET RETURN DATE
     public void setReturnDate() {
         LocalDate localDate = LocalDate.now(); //Catch local time
         LocalDate returnDate = localDate.plusDays(10); //Add 10 days more to the current date
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd LLLL yyyy"); // Setting the format like: DAY MONTH YEAR
         this.returnDate = returnDate.format(formato); //Assign the new string with the correct format and date
     }
+    ////
 
-    @Override
     public String toString() {
         return "Ticket{" +
                 "Today='" + currentDate + '\'' +

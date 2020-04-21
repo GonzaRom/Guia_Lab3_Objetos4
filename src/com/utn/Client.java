@@ -60,7 +60,7 @@ public class Client {
         this.rentalTickets.add(ticket);
     }
 
-    @Override
+
     public String toString() {
         return "Client{" +
                 "name='" + name + '\'' +

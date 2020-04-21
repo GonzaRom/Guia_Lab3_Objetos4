@@ -103,7 +103,15 @@ public class Movie {
         stock++;
     }
 
-    @Override
+    public int getCountPopularity() {
+        return countPopularity;
+    }
+
+    public void increaseCountPopularity() {
+        this.countPopularity++;
+    }
+
+
     public String toString() {
         return "Movie{" +
                 "genre='" + genre + '\'' +
@@ -117,7 +125,7 @@ public class Movie {
                 '}';
     }
 
-    @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -125,16 +133,9 @@ public class Movie {
         return id.equals(movie.id);
     }
 
-    @Override
+
     public int hashCode() {
         return Objects.hash(id);
     }
 
-    public int getCountPopularity() {
-        return countPopularity;
-    }
-
-    public void increaseCountPopularity() {
-        this.countPopularity++;
-    }
 }
