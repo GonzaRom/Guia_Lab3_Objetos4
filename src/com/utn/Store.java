@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 public class Store {
 
-    protected ArrayList<Movie> movies = new ArrayList<>();
-    protected ArrayList<Client> clients = new ArrayList<>();
-    protected ArrayList<Ticket> tickets = new ArrayList<>();
+    protected ArrayList<Movie> movies = new ArrayList<>();                      ///ALL the movies
+    protected ArrayList<Client> clients = new ArrayList<>();                    ///ALL the clients
+    protected ArrayList<Ticket> tickets = new ArrayList<>();                    ///ALL the Tickets (Movie Rentals)
 
     public Store() {
     }
@@ -72,8 +72,8 @@ public class Store {
 
                 if (client != null) {                           //If the client is already register
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
-                    this.tickets.add(ticket);
-                    client.setRentalTickets(ticket);
+                    this.tickets.add(ticket);                   //
+                    client.setRentalTickets(ticket);            //Add the ticket in the arraylist of movie rentals by the client
                     return ticket.toString();                   // Return current ticket
 
                 } else {                                        //The client doesn't exist
@@ -81,7 +81,7 @@ public class Store {
                     clients.add(client);                         //and add it in the list of Clients
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
                     this.tickets.add(ticket);
-                    client.setRentalTickets(ticket);
+                    client.setRentalTickets(ticket);            //Add the ticket in the arraylist of movie rentals by the client
                     return ticket.toString();                   // Return current ticket
                 }
             } else {                                            //No more copies left? Say srry for that
