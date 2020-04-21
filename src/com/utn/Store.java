@@ -7,6 +7,7 @@ public class Store {
 
     protected ArrayList<Movie> movies = new ArrayList<>();
     protected ArrayList<Client> clients = new ArrayList<>();
+    protected ArrayList<Ticket> tickets = new ArrayList<>();
 
     public Store() {
     }
@@ -38,6 +39,7 @@ public class Store {
                 flag = true;                            //Stop searching
             }
         }
+
         if (flag) return movie;                         //Flag = True Movie found
         else return null;                               //Flag = False Movie not found
     }
@@ -70,6 +72,7 @@ public class Store {
 
                 if (client != null) {                           //If the client is already register
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
+                    this.tickets.add(ticket);
                     client.setRentalTickets(ticket);
                     return ticket.toString();                   // Return current ticket
 
@@ -77,6 +80,7 @@ public class Store {
                     client = new Client(nameClient, "Wash", 4751111); //create a new Client
                     clients.add(client);                         //and add it in the list of Clients
                     Ticket ticket = new Ticket(client, movie);  //construct a ticket with the Movie and the Client
+                    this.tickets.add(ticket);
                     client.setRentalTickets(ticket);
                     return ticket.toString();                   // Return current ticket
                 }
@@ -116,15 +120,15 @@ public class Store {
     ////MOVIE RETURNS FOR TODAY
     public String movieReturnsForToday(String date) {
         StringBuilder nameMovieReturns = new StringBuilder();
-        for (Client client : clients) {
-            for (Ticket currentTicket : client.getRentalTickets()) {
+       // for (Client client : clients) {
+            for (Ticket currentTicket : tickets) {
                 if (!currentTicket.isReturned() && currentTicket.getReturnDate().equalsIgnoreCase(date)) {
                     nameMovieReturns.append("\nClient: ");
                     nameMovieReturns.append(currentTicket.getClient().getName());
                     nameMovieReturns.append("\tMovie: ");
                     nameMovieReturns.append(currentTicket.getMovie().getTitle());
                 }
-            }
+            //}
         }
         return "Movies Returns for today " + date + " :" + nameMovieReturns.toString();
     }
@@ -133,22 +137,22 @@ public class Store {
     ////ALQUILERES PENDIENTES
     public String movieReturnsPending() {
         StringBuilder nameMovieReturns = new StringBuilder();
-        for (Client client : clients) {
-            for (Ticket currentTicket : client.getRentalTickets()) {
+        //for (Client client : clients) {
+            for (Ticket currentTicket : tickets) {
                 if (!currentTicket.isReturned()) {
                     nameMovieReturns.append("\nClient: ");
                     nameMovieReturns.append(currentTicket.getClient().getName());
                     nameMovieReturns.append("\tMovie: ");
                     nameMovieReturns.append(currentTicket.getMovie().getTitle());
                 }
-            }
+          //  }
         }
         return "Movies pending for return :" + nameMovieReturns.toString();
     }
     ////
 
     ////SORT BY POPULARITY
-    public void incertionSortByPopularity (){
+    public void insertionSortByPopularity (){
         Movie[] topTenArray = new Movie[movies.size()];
         topTenArray=movies.toArray(topTenArray);
 
@@ -172,7 +176,7 @@ public class Store {
     ////TOP TEN MOVIES
     public String topTenMovies (){
      StringBuilder topTen = new StringBuilder();
-     incertionSortByPopularity();
+     insertionSortByPopularity();
      Movie[] topTenArray= new Movie[movies.size()];
      topTenArray=movies.toArray(topTenArray);
 
