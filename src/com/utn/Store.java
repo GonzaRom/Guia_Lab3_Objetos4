@@ -29,9 +29,9 @@ public class Store {
         Movie movie = new Movie();                      //Init a empty movie
         Iterator<Movie> i = this.movies.iterator();     //Init a Iterator of Movie from the list of Movies
         boolean flag = false;                           //Flag = True Movie found
-                                                        //Flag = False Movie not found
+        //Flag = False Movie not found
         while (i.hasNext() && !flag) {                  //Iterator to traverse the list while there is elements in the
-                                                        // list and the movie wasn't found
+            // list and the movie wasn't found
             movie = i.next();                           //Because i couldn't use the method getTitle stray from i.next
             if (movie.getTitle() != null && movie.getTitle().equalsIgnoreCase(nameMovie)) {
                                                         //Avoid the NullPointerException with movie.getTitle != null
@@ -120,14 +120,14 @@ public class Store {
     ////MOVIE RETURNS FOR TODAY
     public String movieReturnsForToday(String date) {
         StringBuilder nameMovieReturns = new StringBuilder();
-       // for (Client client : clients) {
-            for (Ticket currentTicket : tickets) {
-                if (!currentTicket.isReturned() && currentTicket.getReturnDate().equalsIgnoreCase(date)) {
-                    nameMovieReturns.append("\nClient: ");
-                    nameMovieReturns.append(currentTicket.getClient().getName());
-                    nameMovieReturns.append("\tMovie: ");
-                    nameMovieReturns.append(currentTicket.getMovie().getTitle());
-                }
+        // for (Client client : clients) {
+        for (Ticket currentTicket : tickets) {                      ///FOR optimized with just one loop
+            if (!currentTicket.isReturned() && currentTicket.getReturnDate().equalsIgnoreCase(date)) {
+                nameMovieReturns.append("\nClient: ");
+                nameMovieReturns.append(currentTicket.getClient().getName());
+                nameMovieReturns.append("\tMovie: ");
+                nameMovieReturns.append(currentTicket.getMovie().getTitle());
+            }
             //}
         }
         return "Movies Returns for today " + date + " :" + nameMovieReturns.toString();
@@ -138,32 +138,32 @@ public class Store {
     public String movieReturnsPending() {
         StringBuilder nameMovieReturns = new StringBuilder();
         //for (Client client : clients) {
-            for (Ticket currentTicket : tickets) {
-                if (!currentTicket.isReturned()) {
-                    nameMovieReturns.append("\nClient: ");
-                    nameMovieReturns.append(currentTicket.getClient().getName());
-                    nameMovieReturns.append("\tMovie: ");
-                    nameMovieReturns.append(currentTicket.getMovie().getTitle());
-                }
-          //  }
+        for (Ticket currentTicket : tickets) {                      ///FOR optimized with just one loop
+            if (!currentTicket.isReturned()) {
+                nameMovieReturns.append("\nClient: ");
+                nameMovieReturns.append(currentTicket.getClient().getName());
+                nameMovieReturns.append("\tMovie: ");
+                nameMovieReturns.append(currentTicket.getMovie().getTitle());
+            }
+            //  }
         }
         return "Movies pending for return :" + nameMovieReturns.toString();
     }
     ////
 
     ////SORT BY POPULARITY
-    public void insertionSortByPopularity (){
+    public void insertionSortByPopularity() {
         Movie[] topTenArray = new Movie[movies.size()];
-        topTenArray=movies.toArray(topTenArray);
+        topTenArray = movies.toArray(topTenArray);
 
-        for(int i = 1;i<topTenArray.length;++i){
+        for (int i = 1; i < topTenArray.length; ++i) {
             Movie aux = topTenArray[i];
-            int j = i-1;
-            while (j >=0 && topTenArray[j].getCountPopularity() < aux.getCountPopularity()){
-                topTenArray[j+1] = topTenArray [j];
-                j=j-1;
+            int j = i - 1;
+            while (j >= 0 && topTenArray[j].getCountPopularity() < aux.getCountPopularity()) {
+                topTenArray[j + 1] = topTenArray[j];
+                j = j - 1;
             }
-            topTenArray[j+1]=aux;
+            topTenArray[j + 1] = aux;
         }
 
         movies.clear();
@@ -174,18 +174,18 @@ public class Store {
     ////
 
     ////TOP TEN MOVIES
-    public String topTenMovies (){
-     StringBuilder topTen = new StringBuilder();
-     insertionSortByPopularity();
-     Movie[] topTenArray= new Movie[movies.size()];
-     topTenArray=movies.toArray(topTenArray);
+    public String topTenMovies() {
+        StringBuilder topTen = new StringBuilder();
+        insertionSortByPopularity();
+        Movie[] topTenArray = new Movie[movies.size()];
+        topTenArray = movies.toArray(topTenArray);
 
-     for (int x = 0; x<10 && x < topTenArray.length;x++){
-         topTen.append(topTenArray[x].getTitle());
-         topTen.append("\n");
-     }
-     return "Top Ten Most Rented Movies :\n"+ topTen;
-     }
+        for (int x = 0; x < 10 && x < topTenArray.length; x++) {
+            topTen.append(topTenArray[x].getTitle());
+            topTen.append("\n");
+        }
+        return "Top Ten Most Rented Movies :\n" + topTen;
+    }
     ////
 }
 

@@ -30,7 +30,7 @@ public class Main {
         System.out.println(s1.rentMovie("Corona what?", "marito"));
 
         ///MOVIES RENTED BY THE CLIENT
-        System.out.println("\nMovies rented by " + c2.getName() +" "+ c2.printRented());
+        System.out.println("\nMovies rented by " + c2.getName() + " " + c2.printRented());
 
         ///A CLIENT RETURN A MOVIE
         System.out.println("\n" + s1.returnMovie("test day", "gonzalo"));

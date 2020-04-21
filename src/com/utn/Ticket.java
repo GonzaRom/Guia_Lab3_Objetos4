@@ -22,7 +22,7 @@ public class Ticket extends Store {
         setReturnDate();
         movie.takeOneMovie();
         movie.increaseCountPopularity();
-        returned=false;
+        returned = false;
     }
 
     ////SET CURRENT DATE
@@ -63,14 +63,15 @@ public class Ticket extends Store {
         return this.movie.toString();
     }
 
-    public Movie getMovie (){
+    public Movie getMovie() {
         return this.movie;
     }
 
     public Client getClient() {
         return client;
     }
-    public String getReturnDate(){
+
+    public String getReturnDate() {
         return returnDate;
     }
 

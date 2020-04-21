@@ -19,7 +19,7 @@ public class Movie {
     }
 
     public Movie(String genre, String title, String rated, String country, int releaseYear, int duration, String description, int stock) {
-        this.id=UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.country = country;
         this.description = description;
         this.duration = duration;
@@ -28,7 +28,7 @@ public class Movie {
         this.title = title;
         this.releaseYear = releaseYear;
         this.stock = stock;
-        this.countPopularity=0;
+        this.countPopularity = 0;
     }
 
     public String getGenre() {
